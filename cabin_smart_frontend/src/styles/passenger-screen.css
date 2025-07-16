@@ -1,0 +1,700 @@
+/* Pantalla del Pasajero */
+.passenger-screen {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  color: white;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+/* Header de la pantalla */
+.screen-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.airline-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.airline-logo svg {
+  font-size: 24px;
+  color: #ffd700;
+}
+
+.seat-info {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seat-info .passenger-name {
+  color: #ffd700;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+/* Mensaje de bienvenida */
+.welcome-message {
+  padding: 60px 40px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.welcome-message h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ffd700;
+}
+
+.welcome-message p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.btn-close-welcome {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-close-welcome:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+/* Pantalla principal */
+.main-screen {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Secciones */
+.safety-section,
+.services-section {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove passenger-info-section styles since it's been removed */
+.passenger-info-section {
+  display: none;
+}
+
+.section-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #e8f4f8;
+  font-weight: 600;
+}
+
+/* Panel del cinturón */
+.seatbelt-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.seatbelt-status {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-indicator {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid;
+}
+
+.status-indicator.buckled {
+  background: rgba(40, 167, 69, 0.3);
+  border-color: #28a745;
+}
+
+.status-indicator.unbuckled {
+  background: rgba(220, 53, 69, 0.3);
+  border-color: #dc3545;
+}
+
+.status-icon {
+  font-size: 24px;
+}
+
+.status-icon.success {
+  color: #28a745;
+}
+
+.status-icon.danger {
+  color: #dc3545;
+}
+
+.status-text h4 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+}
+
+.status-text p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Alerta de seguridad */
+.safety-alert {
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-icon {
+  color: #ffc107;
+  font-size: 20px;
+}
+
+/* Controles del cinturón */
+.seatbelt-controls {
+  display: flex;
+  justify-content: center;
+}
+
+.seatbelt-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seatbelt-btn.buckle {
+  background: #28a745;
+  color: white;
+}
+
+.seatbelt-btn.unbuckle {
+  background: #dc3545;
+  color: white;
+}
+
+.seatbelt-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Servicio de baño */
+.bathroom-service {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.service-icon {
+  font-size: 24px;
+  color: #17a2b8;
+}
+
+.service-header h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.queue-status {
+  background: rgba(23, 162, 184, 0.2);
+  border: 1px solid #17a2b8;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.queue-info p {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.queue-position {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.position-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.join-queue {
+  text-align: center;
+  padding: 20px;
+}
+
+.join-queue p {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+/* Botones generales */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+/* Información del pasajero */
+.passenger-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.info-row label {
+  font-weight: bold;
+  min-width: 80px;
+}
+
+.info-row input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+}
+
+.info-row input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.info-row input:focus {
+  outline: none;
+  border-color: #ffd700;
+}
+
+.seat-number {
+  font-weight: bold;
+  color: #ffd700;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .passenger-screen {
+    margin: 10px;
+    max-width: none;
+  }
+  
+  .screen-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  
+  .main-screen {
+    padding: 15px;
+  }
+  
+  .queue-status {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .info-row label {
+    min-width: auto;
+  }
+  
+  .info-row input {
+    width: 100%;
+  }
+}
+
+/* Seat Selection Styles */
+.view-mode-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.mode-btn:hover {
+  border-color: var(--primary-color);
+  background: #f8f9ff;
+}
+
+.mode-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Search Mode */
+.search-mode {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.available-seats-list h3 {
+  margin-bottom: 1rem;
+  color: var(--dark-gray);
+}
+
+.seats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.seat-card {
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.seat-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.seat-card.selected {
+  border-color: var(--primary-color);
+  background: #f8f9ff;
+}
+
+.seat-card.business {
+  background: linear-gradient(135deg, #fff9c4 0%, #ffd700 20%, #fff9c4 100%);
+}
+
+.seat-card.economy {
+  background: linear-gradient(135deg, #e3f2fd 0%, #74b9ff 20%, #e3f2fd 100%);
+}
+
+.seat-id {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--dark-gray);
+}
+
+.seat-class {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.seat-row {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.no-seats-message {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #ddd;
+}
+
+.no-seats-message p {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+/* Browse Mode */
+.browse-mode {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.row-selector {
+  margin-bottom: 2rem;
+}
+
+.row-selector label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--dark-gray);
+}
+
+.row-selector select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.row-selector select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.row-display {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.row-display h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--dark-gray);
+}
+
+.seat-row-browse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.seats-section {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.aisle-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 60px;
+  background: linear-gradient(to right, #ddd, #bbb, #ddd);
+  border-radius: 4px;
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.seat-selection-seat {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #e0e0e0;
+  background: white;
+  margin: 0.2rem;
+}
+
+.seat-selection-seat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.seat-selection-seat.available {
+  background: #f8f9fa;
+  border-color: #28a745;
+}
+
+.seat-selection-seat.occupied {
+  background: #f8d7da;
+  border-color: #dc3545;
+  cursor: not-allowed;
+}
+
+.seat-selection-seat.selected {
+  border-color: var(--primary-color);
+  background: #f8f9ff;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.3);
+}
+
+.seat-selection-seat.business {
+  background: linear-gradient(135deg, #fff9c4 0%, #ffd700 20%, #fff9c4 100%);
+}
+
+.seat-selection-seat.economy {
+  background: linear-gradient(135deg, #e3f2fd 0%, #74b9ff 20%, #e3f2fd 100%);
+}
+
+.seat-selection-seat .seat-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.seat-selection-seat .seat-label span {
+  font-size: 0.8rem;
+}
+
+.seat-selection-seat .seat-status {
+  margin-top: 0.2rem;
+}
+
+.seat-selection-seat .belt-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seat-selection-seat .belt-indicator.buckled {
+  background: #28a745;
+  color: white;
+}
+
+.seat-selection-seat .belt-indicator.unbuckled {
+  background: #dc3545;
+  color: white;
+}
+
+.seat-selection-seat .belt-indicator .status-icon {
+  font-size: 0.6rem;
+}

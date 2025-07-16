@@ -1,0 +1,224 @@
+/* Crew Dashboard Styles */
+.crew-dashboard {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.dashboard-header {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.dashboard-header h2 {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.status-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--light-gray);
+  border-radius: 1.5rem;
+  font-weight: 500;
+  color: var(--dark-gray);
+}
+
+.status-item.success {
+  background-color: #e6f4ea;
+  color: var(--secondary-color);
+}
+
+.status-item.warning {
+  background-color: #fef7e0;
+  color: var(--warning-color);
+}
+
+.status-item.danger {
+  background-color: #fce8e6;
+  color: var(--danger-color);
+}
+
+.status-item.info {
+  background-color: #e8f0fe;
+  color: var(--primary-color);
+}
+
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.dashboard-section {
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.passenger-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.passenger-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.passenger-card.warning {
+  border-left-color: var(--warning-color);
+}
+
+.passenger-card.danger {
+  border-left-color: var(--danger-color);
+}
+
+.passenger-card.success {
+  border-left-color: var(--secondary-color);
+}
+
+.passenger-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.passenger-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-gray);
+  flex-shrink: 0;
+}
+
+.passenger-name {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.seat-number {
+  font-size: 0.8rem;
+  color: var(--dark-gray);
+  margin-top: 0.1rem;
+}
+
+.passenger-actions {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--medium-gray);
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Queue List in Crew View */
+.queue-list {
+  margin-top: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--border-radius);
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: white;
+  border-bottom: 1px solid var(--medium-gray);
+  transition: all 0.2s ease;
+}
+
+.queue-item:last-child {
+  border-bottom: none;
+}
+
+.queue-position {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.queue-time {
+  font-size: 0.8rem;
+  color: var(--dark-gray);
+  margin-left: auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .dashboard-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .passenger-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .status-summary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .status-item {
+    justify-content: center;
+  }
+  
+  .passenger-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-sections {
+    padding: 1rem;
+  }
+  
+  .dashboard-section {
+    padding: 1rem;
+  }
+}

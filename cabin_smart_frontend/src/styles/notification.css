@@ -1,0 +1,137 @@
+/* Notification Container */
+.notification {
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+  max-width: 350px;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-lg);
+  background-color: white;
+  overflow: hidden;
+  transform: translateY(0);
+  opacity: 1;
+  transition: all var(--transition-normal) ease-out;
+  animation: slideInRight var(--transition-normal) ease-out;
+}
+
+.notification-exit {
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+/* Notification Content */
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  position: relative;
+}
+
+/* Notification Icon */
+.notification-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+}
+
+.notification-icon {
+  font-size: 1.25rem;
+}
+
+/* Notification Message */
+.notification-message {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  padding-right: 1.5rem;
+}
+
+/* Close Button */
+.notification-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.notification-close:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Notification Types */
+.notification-success {
+  border-left: 4px solid var(--secondary-color);
+}
+
+.notification-success .notification-icon {
+  color: var(--secondary-color);
+}
+
+.notification-error {
+  border-left: 4px solid var(--danger-color);
+}
+
+.notification-error .notification-icon {
+  color: var(--danger-color);
+}
+
+.notification-warning {
+  border-left: 4px solid var(--warning-color);
+}
+
+.notification-warning .notification-icon {
+  color: var(--warning-color);
+}
+
+.notification-info {
+  border-left: 4px solid var(--primary-color);
+}
+
+.notification-info .notification-icon {
+  color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .notification {
+    max-width: calc(100% - 2rem);
+    right: 1rem;
+    bottom: 1rem;
+  }
+  
+  .notification-content {
+    padding: 0.75rem;
+  }
+  
+  .notification-message {
+    font-size: 0.85rem;
+  }
+}

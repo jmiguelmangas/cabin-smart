@@ -1,0 +1,244 @@
+/* Crew Dashboard Styles */
+.crew-dashboard {
+  padding: 1.5rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.dashboard-header h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--border-radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+  font-size: 1.75rem;
+  margin-right: 1rem;
+  color: var(--primary-color);
+}
+
+.stat-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.dashboard-section {
+  background: white;
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-section h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.passenger-list,
+.queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.passenger-item,
+.queue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--light-bg);
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.2s;
+}
+
+.passenger-item:hover,
+.queue-item:hover {
+  background: var(--lighter-bg);
+}
+
+.passenger-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.status-icon {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  min-width: 20px;
+  text-align: center;
+}
+
+.passenger-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.queue-position {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  min-width: 2.5rem;
+  text-align: center;
+}
+
+.queue-details {
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.passenger-name {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.queue-time {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.queue-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.no-items {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .dashboard-sections {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-section:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-overview {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .passenger-item,
+  .queue-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .passenger-actions,
+  .queue-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+  
+  .queue-details {
+    margin: 0.5rem 0;
+  }
+}
+
+/* Animation for queue items */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.queue-item {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Status colors */
+.status-icon.in-seat {
+  color: var(--success-color);
+}
+
+.status-icon.out-of-seat {
+  color: var(--warning-color);
+}
+
+.status-icon.in-bathroom {
+  color: var(--info-color);
+}
+
+/* Button overrides for dashboard */
+.dashboard-section .btn {
+  white-space: nowrap;
+}
+
+.dashboard-section .btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 200px;
+  align-items: center;
+}
