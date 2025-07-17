@@ -1,5 +1,7 @@
 # CabinSmart - Gestión de Cabina de Avión
 
+![CabinSmart Logo](cabinsmartlogo.png)
+
 CabinSmart es una aplicación web en tiempo real para la gestión de asientos y baño en una cabina de avión. Permite a los pasajeros abrochar/desabrochar cinturones y unirse a la cola del baño, mientras que los miembros de la tripulación pueden monitorear el estado general de la cabina.
 
 ## Características
