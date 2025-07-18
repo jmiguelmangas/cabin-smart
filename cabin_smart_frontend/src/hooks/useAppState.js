@@ -11,6 +11,7 @@ export const useAppState = () => {
     isConnected,
     seats,
     bathroomQueue,
+    bathroomStatus,
     connectedUsers,
     toggleSeatBelt,
     joinBathroomQueue,
@@ -20,6 +21,7 @@ export const useAppState = () => {
     isSeatBeltBuckled,
     isInBathroomQueue,
     getQueuePosition,
+    bathroomDoorSensor,
   } = useWebSocketContext();
   
   const { showSuccess, showError } = useNotification();
@@ -184,6 +186,11 @@ export const useAppState = () => {
     }));
   }, [seats]);
 
+  // Handle bathroom door sensor
+  const handleBathroomDoorSensor = useCallback((action, seatId) => {
+    bathroomDoorSensor(action, seatId || selectedSeat);
+  }, [bathroomDoorSensor, selectedSeat]);
+
   return {
     // State
     isConnected,
@@ -197,6 +204,7 @@ export const useAppState = () => {
     // Seat data
     seats: getAllSeats(),
     bathroomQueue,
+    bathroomStatus,
     connectedUsers,
     
     // Current seat status
@@ -214,6 +222,7 @@ export const useAppState = () => {
     handleToggleSeatBelt,
     handleJoinBathroomQueue,
     handleLeaveBathroomQueue,
+    handleBathroomDoorSensor,
     toggleView,
     markInSeat,
   };

@@ -1,4 +1,5 @@
 import { FaPlaneDeparture, FaUser, FaUserTie, FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaToilet } from 'react-icons/fa';
 import { useState } from 'react';
 
 const Header = ({ 
@@ -68,6 +69,12 @@ const Header = ({
             onClick={() => onViewChange('passenger')}
           >
             <FaUser /> Pasajero
+          </button>
+          <button 
+            className={`toggle-btn ${view === 'bathroom' ? 'active' : ''}`}
+            onClick={() => onViewChange('bathroom')}
+          >
+            <FaToilet /> Baño
           </button>
           <button 
             className={`toggle-btn ${view === 'crew' ? 'active' : ''}`}

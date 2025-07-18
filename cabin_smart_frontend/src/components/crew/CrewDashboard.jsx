@@ -226,12 +226,12 @@ const CrewDashboard = ({
             <div className="panel-content">
               {bathroomQueue.length > 0 ? (
                 <div className="queue-list">
-                  {bathroomQueue.slice(0, 5).map(({ seatId, passengerName, timestamp }, index) => (
-                    <div key={`${seatId}-${timestamp}`} className="queue-item">
+                  {bathroomQueue.slice(0, 5).map(({ seat_id, passenger_name, timestamp }, index) => (
+                    <div key={`${seat_id}-${timestamp}`} className="queue-item">
                       <div className="queue-position">#{index + 1}</div>
                       <div className="queue-details">
                         <div className="passenger-name">
-                          {passengerName || `Asiento ${seatId}`}
+                          Asiento {seat_id}
                         </div>
                         <div className="queue-time">
                           {new Date(timestamp).toLocaleTimeString()}

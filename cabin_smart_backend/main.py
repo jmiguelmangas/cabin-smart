@@ -13,8 +13,10 @@ from database import (
     get_database,
     init_seats_collection,
     init_bathroom_queue_collection,
+    init_bathroom_status_collection,
     SEATS_COLLECTION,
-    BATHROOM_QUEUE_COLLECTION
+    BATHROOM_QUEUE_COLLECTION,
+    BATHROOM_STATUS_COLLECTION
 )
 
 app = FastAPI(title="CabinSmart API")
@@ -48,6 +50,7 @@ async def startup_event():
     await connect_to_mongo()
     await init_seats_collection()
     await init_bathroom_queue_collection()
+    await init_bathroom_status_collection()
     print("Application started successfully")
 
 # Shutdown event
@@ -106,6 +109,44 @@ async def get_bathroom_queue():
     queue_collection = db[BATHROOM_QUEUE_COLLECTION]
     queue_cursor = queue_collection.find({}, {"_id": 0}).sort("timestamp", 1)
     return await queue_cursor.to_list(length=None)
+
+async def get_bathroom_status():
+    """Get bathroom status from database"""
+    db = await get_database()
+    status_collection = db[BATHROOM_STATUS_COLLECTION]
+    status = await status_collection.find_one({"bathroom_id": "main"}, {"_id": 0})
+    return status if status else {"bathroom_id": "main", "is_occupied": False, "current_user": None, "last_updated": None}
+
+async def update_bathroom_status(is_occupied: bool, current_user: str = None):
+    """Update bathroom status"""
+    db = await get_database()
+    status_collection = db[BATHROOM_STATUS_COLLECTION]
+    
+    await status_collection.update_one(
+        {"bathroom_id": "main"},
+        {
+            "$set": {
+                "is_occupied": is_occupied,
+                "current_user": current_user,
+                "last_updated": datetime.now().isoformat()
+            }
+        },
+        upsert=True
+    )
+
+async def notify_next_in_queue():
+    """Notify the next person in queue when bathroom becomes available"""
+    queue = await get_bathroom_queue()
+    if queue:
+        next_person = queue[0]
+        await manager.broadcast(json.dumps({
+            "event": "bathroom_available",
+            "data": {
+                "seatId": next_person["seat_id"],
+                "passengerName": next_person["passenger_name"],
+                "message": "El baño está disponible. Es tu turno."
+            }
+        }))
 
 # WebSocket event handlers
 async def handle_toggle_seat_belt(websocket: WebSocket, data: dict):
@@ -194,7 +235,38 @@ async def handle_join_bathroom_queue(websocket: WebSocket, data: dict):
         })
         return
     
-    # Add to queue
+    # Check current bathroom status and queue
+    bathroom_status = await get_bathroom_status()
+    current_queue = await get_bathroom_queue()
+    
+    # If bathroom is free and no one is in queue, allow direct access
+    if not bathroom_status["is_occupied"] and len(current_queue) == 0:
+        # Mark bathroom as occupied
+        await update_bathroom_status(True, seat_id)
+        
+        # Send direct access message
+        await websocket.send_json({
+            "event": "bathroom_direct_access",
+            "data": {
+                "success": True, 
+                "message": "Puedes ir al baño directamente. ¡Está libre!",
+                "seatId": seat_id
+            }
+        })
+        
+        # Broadcast bathroom status update
+        await manager.broadcast(json.dumps({
+            "event": "bathroom_status_updated",
+            "data": {
+                "isOccupied": True,
+                "currentUser": seat_id,
+                "passengerName": passenger_name or f"Pasajero {seat_id}"
+            }
+        }))
+        
+        return
+    
+    # Otherwise, add to queue
     queue_item = {
         "seat_id": seat_id,
         "passenger_name": passenger_name or f"Pasajero {seat_id}",
@@ -316,6 +388,63 @@ async def handle_update_seat_status(websocket: WebSocket, data: dict):
         "data": {"success": True, "seatId": seat_id}
     })
 
+async def handle_bathroom_door_sensor(websocket: WebSocket, data: dict):
+    """Handle bathroom door sensor events (entry/exit)"""
+    action = data.get("action")  # "enter" or "exit"
+    seat_id = data.get("seatId")
+    
+    if action == "enter":
+        # Someone entered the bathroom
+        await update_bathroom_status(True, seat_id)
+        
+        # If they were in queue, remove them
+        if seat_id:
+            db = await get_database()
+            queue_collection = db[BATHROOM_QUEUE_COLLECTION]
+            await queue_collection.delete_one({"seat_id": seat_id})
+        
+        # Broadcast status update
+        await manager.broadcast(json.dumps({
+            "event": "bathroom_status_updated",
+            "data": {
+                "isOccupied": True,
+                "currentUser": seat_id,
+                "action": "entered"
+            }
+        }))
+        
+        # Update queue
+        updated_queue = await get_bathroom_queue()
+        await manager.broadcast(json.dumps({
+            "event": "bathroom_queue_updated",
+            "data": {
+                "queue": updated_queue
+            }
+        }))
+        
+    elif action == "exit":
+        # Someone exited the bathroom
+        await update_bathroom_status(False, None)
+        
+        # Broadcast status update
+        await manager.broadcast(json.dumps({
+            "event": "bathroom_status_updated",
+            "data": {
+                "isOccupied": False,
+                "currentUser": None,
+                "action": "exited"
+            }
+        }))
+        
+        # Notify next person in queue
+        await notify_next_in_queue()
+    
+    # Send confirmation back to sender
+    await websocket.send_json({
+        "event": "bathroom_door_sensor_processed",
+        "data": {"success": True, "action": action}
+    })
+
 # API Routes
 @app.get("/")
 async def read_root():
@@ -344,12 +473,14 @@ async def websocket_endpoint(websocket: WebSocket):
         # Send initial state
         seats = await get_all_seats()
         bathroom_queue = await get_bathroom_queue()
+        bathroom_status = await get_bathroom_status()
         
         await websocket.send_json({
             "event": "initial_state",
             "data": {
                 "seats": seats,
                 "bathroomQueue": bathroom_queue,
+                "bathroomStatus": bathroom_status,
                 "connectedUsers": len(manager.active_connections)
             }
         })
@@ -369,6 +500,8 @@ async def websocket_endpoint(websocket: WebSocket):
                     await handle_leave_bathroom_queue(websocket, message.get("data", {}))
                 elif message.get("event") == "update_seat_status":
                     await handle_update_seat_status(websocket, message.get("data", {}))
+                elif message.get("event") == "bathroom_door_sensor":
+                    await handle_bathroom_door_sensor(websocket, message.get("data", {}))
                     
             except WebSocketDisconnect:
                 print("WebSocket disconnected normally")

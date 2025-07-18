@@ -6,10 +6,11 @@ import { EVENTS, WS_CONFIG } from '../config/constants';
 const WebSocketContext = createContext();
 
 export const WebSocketProvider = ({ children }) => {
-  const { showError } = useNotification();
+  const { showError, showSuccess } = useNotification();
   const [socketStatus, setSocketStatus] = useState('disconnected');
   const [seats, setSeats] = useState({});
   const [bathroomQueue, setBathroomQueue] = useState([]);
+  const [bathroomStatus, setBathroomStatus] = useState({ is_occupied: false, current_user: null });
   const [connectedUsers, setConnectedUsers] = useState(0);
 
   // Handle WebSocket connection and events
@@ -27,6 +28,7 @@ export const WebSocketProvider = ({ children }) => {
     const handleInitialState = (data) => {
       setSeats(data.seats || {});
       setBathroomQueue(data.bathroomQueue || []);
+      setBathroomStatus(data.bathroomStatus || { is_occupied: false, current_user: null });
       setConnectedUsers(data.connectedUsers || 0);
     };
 
@@ -51,10 +53,32 @@ export const WebSocketProvider = ({ children }) => {
       setConnectedUsers(data.count || 0);
     };
 
+    // Handle bathroom status updates
+    const handleBathroomStatusUpdate = (data) => {
+      setBathroomStatus({
+        is_occupied: data.isOccupied,
+        current_user: data.currentUser,
+        action: data.action
+      });
+    };
+
+    // Handle bathroom direct access
+    const handleBathroomDirectAccess = (data) => {
+      showSuccess(data.message || 'Puedes ir al baño directamente');
+    };
+
+    // Handle bathroom available notification
+    const handleBathroomAvailable = (data) => {
+      showSuccess(data.message || 'El baño está disponible');
+    };
+
     // Subscribe to WebSocket events
     const cleanupInitialState = on(EVENTS.INITIAL_STATE, handleInitialState);
     const cleanupSeatUpdate = on(EVENTS.SEAT_UPDATED, handleSeatUpdate);
     const cleanupBathroomQueue = on(EVENTS.BATHROOM_QUEUE_UPDATED, handleBathroomQueueUpdate);
+    const cleanupBathroomStatus = on('bathroom_status_updated', handleBathroomStatusUpdate);
+    const cleanupBathroomDirectAccess = on('bathroom_direct_access', handleBathroomDirectAccess);
+    const cleanupBathroomAvailable = on('bathroom_available', handleBathroomAvailable);
     const cleanupUserCount = on(EVENTS.USER_COUNT_UPDATED, handleUserCountUpdate);
 
     // Clean up event listeners
@@ -62,6 +86,9 @@ export const WebSocketProvider = ({ children }) => {
       cleanupInitialState();
       cleanupSeatUpdate();
       cleanupBathroomQueue();
+      cleanupBathroomStatus();
+      cleanupBathroomDirectAccess();
+      cleanupBathroomAvailable();
       cleanupUserCount();
     };
   }, [on]);
@@ -154,6 +181,21 @@ export const WebSocketProvider = ({ children }) => {
     return bathroomQueue.some(entry => entry.seat_id === seatId);
   }, [bathroomQueue]);
 
+  // Simulate bathroom door sensor
+  const bathroomDoorSensor = useCallback((action, seatId) => {
+    try {
+      const success = send('bathroom_door_sensor', { action, seatId });
+      if (!success) {
+        showError('Error al actualizar sensor de puerta - no conectado');
+      }
+      return success;
+    } catch (error) {
+      console.error('Error with bathroom door sensor:', error);
+      showError('Error al actualizar sensor de puerta');
+      throw error;
+    }
+  }, [send, showError]);
+
   // Context value
   const contextValue = {
     // State
@@ -161,6 +203,7 @@ export const WebSocketProvider = ({ children }) => {
     socketStatus,
     seats,
     bathroomQueue,
+    bathroomStatus,
     connectedUsers,
     
     // Methods
@@ -173,6 +216,7 @@ export const WebSocketProvider = ({ children }) => {
     isSeatBeltBuckled,
     getQueuePosition,
     isInBathroomQueue,
+    bathroomDoorSensor,
     
     // Raw WebSocket methods (use with caution)
     send,

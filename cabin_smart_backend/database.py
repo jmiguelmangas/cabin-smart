@@ -12,6 +12,7 @@ database = None
 DB_NAME = "cabin_smart"
 SEATS_COLLECTION = "seats"
 BATHROOM_QUEUE_COLLECTION = "bathroom_queue"
+BATHROOM_STATUS_COLLECTION = "bathroom_status"
 
 # Lista de nombres aleatorios para los pasajeros
 RANDOM_NAMES = [
@@ -130,3 +131,21 @@ async def init_bathroom_queue_collection():
     # Clear existing queue on startup
     await queue_collection.delete_many({})
     print("Initialized bathroom queue collection")
+
+async def init_bathroom_status_collection():
+    """Initialize bathroom status collection"""
+    status_collection = database[BATHROOM_STATUS_COLLECTION]
+    
+    # Check if bathroom status already exists
+    existing_status = await status_collection.find_one({"bathroom_id": "main"})
+    if not existing_status:
+        # Initialize bathroom as available
+        await status_collection.insert_one({
+            "bathroom_id": "main",
+            "is_occupied": False,
+            "current_user": None,
+            "last_updated": None
+        })
+        print("Initialized bathroom status collection")
+    else:
+        print("Bathroom status already exists")

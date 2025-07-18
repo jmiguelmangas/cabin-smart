@@ -32,6 +32,7 @@ function App() {
     isInitialized,
     seats,
     bathroomQueue,
+    bathroomStatus,
     connectedUsers,
     isCurrentSeatInQueue,
     currentSeatQueuePosition,
@@ -43,6 +44,7 @@ function App() {
     handleToggleSeatBelt,
     handleJoinBathroomQueue,
     handleLeaveBathroomQueue,
+    handleBathroomDoorSensor,
     toggleView,
     markInSeat,
   } = useAppState();
@@ -79,6 +81,21 @@ function App() {
           connectedUsers={connectedUsers}
           onMarkInSeat={markInSeat}
           onToggleSeatBelt={handleToggleSeatBelt}
+        />
+      );
+    }
+    
+    if (view === 'bathroom') {
+      return (
+        <BathroomQueue
+          queue={bathroomQueue}
+          selectedSeat={selectedSeat}
+          onJoinQueue={handleJoinBathroomQueue}
+          onLeaveQueue={handleLeaveBathroomQueue}
+          passengerName={passengerName}
+          onNameChange={setPassengerName}
+          bathroomStatus={bathroomStatus}
+          onBathroomDoorSensor={handleBathroomDoorSensor}
         />
       );
     }
