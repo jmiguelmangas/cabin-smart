@@ -30,7 +30,7 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
   color: white;
   border-radius: 50px 50px 12px 12px;
   font-weight: 600;
@@ -46,7 +46,7 @@
   transform: translateX(-50%);
   width: 80%;
   height: 5px;
-  background: linear-gradient(to right, transparent, #667eea, transparent);
+  background: linear-gradient(to right, transparent, #1a237e, transparent);
   border-radius: 0 0 8px 8px;
 }
 
