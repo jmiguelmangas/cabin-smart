@@ -111,8 +111,15 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: #f0f0f0;
+  background: var(--primary-color);
   border-bottom: 1px solid #eee;
+}
+
+.section-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .section-actions {
@@ -145,8 +152,18 @@ h1 {
 
 .panel-header {
   padding: 0.5rem 1rem;
-  background: #f0f0f0;
+  background: var(--primary-color);
   border-bottom: 1px solid #eee;
+}
+
+.panel-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .panel-content {

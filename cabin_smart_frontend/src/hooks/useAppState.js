@@ -169,7 +169,7 @@ export const useAppState = () => {
   // Get all passengers not in their seats
   const getPassengersNotInSeats = useCallback(() => {
     return Object.entries(seats).filter(([_, seat]) => 
-      seat.isOccupied && !seat.isInSeat
+      seat.is_occupied && !seat.is_in_seat
     ).map(([seatId, seat]) => ({
       seatId,
       ...seat
@@ -179,7 +179,7 @@ export const useAppState = () => {
   // Get all unbuckled seats
   const getUnbuckledSeats = useCallback(() => {
     return Object.entries(seats).filter(([_, seat]) => 
-      seat.isOccupied && !seat.isBuckled
+      seat.is_occupied && !seat.is_buckled
     ).map(([seatId, seat]) => ({
       seatId,
       ...seat

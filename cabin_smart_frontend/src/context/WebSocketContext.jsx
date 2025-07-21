@@ -196,6 +196,21 @@ export const WebSocketProvider = ({ children }) => {
     }
   }, [send, showError]);
 
+  // Send safety announcement
+  const sendSafetyAnnouncement = useCallback((message, targetSeats = []) => {
+    try {
+      const success = send('safety_announcement', { message, targetSeats });
+      if (!success) {
+        showError('Error al enviar aviso de seguridad - no conectado');
+      }
+      return success;
+    } catch (error) {
+      console.error('Error sending safety announcement:', error);
+      showError('Error al enviar aviso de seguridad');
+      throw error;
+    }
+  }, [send, showError]);
+
   // Context value
   const contextValue = {
     // State
@@ -217,6 +232,7 @@ export const WebSocketProvider = ({ children }) => {
     getQueuePosition,
     isInBathroomQueue,
     bathroomDoorSensor,
+    sendSafetyAnnouncement,
     
     // Raw WebSocket methods (use with caution)
     send,

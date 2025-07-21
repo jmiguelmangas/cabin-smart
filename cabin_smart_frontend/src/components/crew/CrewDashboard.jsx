@@ -16,6 +16,7 @@ const CrewDashboard = ({
 }) => {
   const { withLoading } = useLoading();
   const { showSuccess, showError } = useNotification();
+  const { sendSafetyAnnouncement } = useWebSocketContext();
 
   // Handle marking a passenger as in their seat
   const handleMarkInSeat = async (seatId, inSeat) => {
@@ -52,14 +53,11 @@ const CrewDashboard = ({
   // Handle sending safety announcement
   const handleSendSafetyAnnouncement = async () => {
     try {
+      const unbuckledSeatIds = unbuckledSeats.map(seat => seat.seatId);
+      const message = 'Por favor, abróchense el cinturón de seguridad inmediatamente.';
+      
       await withLoading(
-        // TODO: Implement WebSocket event for safety announcement
-        new Promise(resolve => {
-          // Simulate sending announcement
-          setTimeout(() => {
-            resolve();
-          }, 1000);
-        }),
+        sendSafetyAnnouncement(message, unbuckledSeatIds),
         { text: 'Enviando aviso de seguridad...' }
       );
       
